@@ -1,0 +1,149 @@
+*balanced-backspace.txt*     For Vim version 8.0.     Last change: 2021 Feb 12
+
+
+                    Balanced Braces         by S0AndS0
+
+
+Balanced Braces                                           *balanced-backspace*
+
+1. Insert mode defaults                            |balanced-backspace-normal|
+2. Functions                                    |balanced-backspace-functions|
+3. Configuration                            |balanced-backspace-configuration|
+4. Notes                                            |balanced-backspace-notes|
+
+==============================================================================
+1. Insert mode defaults                            *balanced-backspace-normal*
+
+>
+  {<BS>}
+<                    Backspace within empty curly-brace will delete the
+                    closing brace along with opening brace
+>
+  (<BS>)
+<                    Backspace within empty parenthesis will delete the
+                    closing parenthesis along with opening parenthesis
+>
+  [<BS>]
+<                    Backspace within empty square-braces will delete the
+                    closing brace along with opening brace
+>
+  "<BS>"
+<                    Backspace within empty double-quotes will delete the
+                    closing quote along with opening quote
+>
+  '<BS>'
+<                    Backspace within empty single-quotes will delete the
+                    closing quote along with opening quote
+>
+  `<BS>`
+<                    Backspace within empty backtick will delete the closing
+                    backtick along with opening backtick
+
+==============================================================================
+2. Functions                                    *balanced-backspace-functions*
+>
+  Balanced_Backspace()
+<                    Parses `b:balanced_backspace__normalized_configs` every
+                    time `<BS>` is pressed and returns either `<BS>` or
+                    `<BS><Del>` based on if current and previous character are
+                    open/close symbols
+
+==============================================================================
+3. Configuration                            *balanced-backspace-configuration*
+
+                     Existing defaults may be modified or extended by
+                     assigning `g:balanced_backspace` variable within the
+                     `~/.vimrc` file for a given account.
+                     Defaults example~
+                     >
+  let s:balanced_backspace = {
+        \   'exclude': [],
+        \   'all': {
+        \     'parentheses': { 'open': '(', 'close': ')' },
+        \     'curly-brace': { 'open': '{', 'close': '}' },
+        \     'square-bracket': { 'open': '[', 'close': ']' },
+        \     'single-quote': { 'open': "'" },
+        \     'double-quote': { 'open': '"' },
+        \     'backtick': { 'open': "`" },
+        \   },
+        \ }
+<
+                     The `exclude` list may define 'filetype' strings this
+                     plugin should ignore.
+                     Exclude example~
+                     >
+    let g:balanced_backspace = {
+         \   'exclude': [ 'help', 'markdown' ],
+         \ }
+<
+                     Or by add 'filetype' specific top level key
+                     Filetype customization example~
+                     >
+    let g:balanced_backspace = {
+          \   'html': {
+          \     'angle-bracket': { 'open': '<', 'close': '>' },
+          \   },
+          \ }
+<
+                     To remove a symbol pare defined by `all` key, set `false`
+                     Remove `all` entry example~
+                     >
+    let g:balanced_backspace = {
+         \   'all': {
+         \     'square-bracket': false,
+         \   },
+         \ }
+<
+                     Alternatively one may instead assign a JSON file path to
+                     the `g:balanced_backspace` variable to customize
+                     configurations
+                     JSON file example contents~
+                     >
+         {
+           "exclude": [ "help", "markdown" ],
+           "all": {
+             "parentheses": {
+               "open": "(",
+               "close": ")"
+             },
+             "curly-brace": {
+               "open": "{",
+               "close": "}"
+             },
+             "square-bracket": {
+               "open": "[",
+               "close": "]"
+             },
+             "single-quote": {
+               "open": "'"
+             },
+             "double-quote": {
+               "open": "\""
+             },
+             "backtick": {
+               "open": "`"
+             }
+           },
+           "html": {
+             "angle-bracket": {
+               "open": "<",
+               "close": ">"
+             }
+           }
+         }
+<
+                    Configuration via JSON example~
+                    >
+    let g:balanced_backspace = '~/.vim/configs/balanced-backspace.json'
+<
+
+==============================================================================
+4. Notes                                            *balanced-backspace-notes*
+
+                     Bugs for this plugin should be reported to plugin
+                     authors, not Vim maintainers.
+
+    https://github.com/vim-utilities/balanced-backspace/issues
+
+
+ vim:tw=78:ts=8:ft=help:norl:
